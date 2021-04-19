@@ -16,10 +16,11 @@ const server = new ApolloServer({                                    //typedefs 
     resolvers,
     context: ({ req }) => ({ req, pubsub })
 });
-mongoose.connect(MONGODB, { useNewUrlParser: true })
+mongoose
+    .connect(process.env.MONGODB, {useNewUrlParser: true, useUnifiedTopology: true})
     .then(() => {
-        console.log('MongoDb Connected!!');
-        return server.listen({ port: PORT });                           //apollo server opens up at this port
+        console.log('MongoDb Connected');
+        return server.listen({ port: PORT });
     })
     .then((res) => {
         console.log(`Server running at ${res.url}`);
